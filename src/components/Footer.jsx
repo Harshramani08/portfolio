@@ -10,7 +10,7 @@ const Footer = () => {
         <footer className="px-6 py-6">
             <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 border-t border-white/10 px-6 pt-6 text-sm text-gray-400 md:flex-row md:px-10">
 
-                <div className="flex flex-wrap justify-center gap-6 md:justify-start">
+                 <div className="flex gap-6 whitespace-nowrap">
                     {socialLinks.map(({ name, href }) => (
                         <a
                             key={name}
