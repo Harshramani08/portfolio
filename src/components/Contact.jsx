@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { FaUser, FaEnvelope, FaPaperPlane, FaPhoneAlt } from "react-icons/fa";
+import emailjs from "@emailjs/browser";
+
 
 const initialState = {
   name: "",
@@ -35,17 +37,43 @@ const Contact = () => {
 
     return null;
   };
-
-  // SUBMIT
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    // ✅ validation call karo
     const error = validateForm();
-    if (error) return toast.error(error);
+    if (error) {
+      toast.error(error);
+      return;
+    }
 
-    toast.success("Message sent successfully 🚀");
-    setForm(initialState);
+    // 📩 EMAIL TO YOU
+    emailjs.send(
+      "service_abcd123",
+      "template_dkk9dtn",
+      form,
+      "Ajx95gMmH1isMtgp4"
+    )
+      .then(() => {
+
+        // 📩 AUTO REPLY TO USER
+        emailjs.send(
+          "service_abcd123",
+          "template_fazirnl",
+          form,
+          "Ajx95gMmH1isMtgp4"
+        );
+
+        toast.success("Message sent successfully 🚀");
+
+        setForm(initialState);
+      })
+      .catch(() => {
+        toast.error("Failed to send message!");
+      });
   };
+
+
 
   const inputClass =
     "w-full rounded-xl border border-white/10 bg-transparent py-3 pl-12 pr-4 outline-none focus:border-primary";
