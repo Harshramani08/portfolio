@@ -28,6 +28,7 @@ const Contact = () => {
     if (!form.email.trim()) return "Email is required";
     if (!emailRegex.test(form.email)) return "Enter a valid email address";
 
+    if (!form.phone.trim()) return "Phone Number is required";
     if (form.phone && !phoneRegex.test(form.phone))
       return "Enter valid phone number";
 
@@ -40,14 +41,12 @@ const Contact = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // ✅ validation call karo
     const error = validateForm();
     if (error) {
       toast.error(error);
       return;
     }
 
-    // 📩 EMAIL TO YOU
     emailjs.send(
       "service_abcd123",
       "template_dkk9dtn",
@@ -55,8 +54,6 @@ const Contact = () => {
       "Ajx95gMmH1isMtgp4"
     )
       .then(() => {
-
-        // 📩 AUTO REPLY TO USER
         emailjs.send(
           "service_abcd123",
           "template_fazirnl",
@@ -72,8 +69,6 @@ const Contact = () => {
         toast.error("Failed to send message!");
       });
   };
-
-
 
   const inputClass =
     "w-full rounded-xl border border-white/10 bg-transparent py-3 pl-12 pr-4 outline-none focus:border-primary";
