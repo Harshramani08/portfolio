@@ -12,7 +12,9 @@ const initialState = {
 
 const Contact = () => {
   const [form, setForm] = useState(initialState);
+  const [loading, setLoading] = useState(false);
 
+  // Initialize EmailJS
   useEffect(() => {
     emailjs.init("ByKrV7PsZWVg5lCOO");
   }, []);
@@ -54,6 +56,8 @@ const Contact = () => {
     }
 
     try {
+      setLoading(true);
+
       await emailjs.send(
         "service_abcd123",
         "template_dkk9dtn",
@@ -66,6 +70,8 @@ const Contact = () => {
     } catch (error) {
       console.log("EMAIL ERROR:", error);
       toast.error("Failed to send message!");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -79,6 +85,10 @@ const Contact = () => {
         <h2 className="mb-6 text-4xl font-bold">
           Contact With Me
         </h2>
+
+        <p className="mb-10 text-gray-400">
+          Feel free to send me a message anytime.
+        </p>
 
         <form
           onSubmit={handleSubmit}
@@ -132,10 +142,15 @@ const Contact = () => {
 
           <button
             type="submit"
-            className="flex w-full items-center justify-center gap-3 rounded-xl bg-linear-to-r from-purple-500 to-indigo-500 py-4 font-semibold transition hover:scale-105"
+            disabled={loading}
+            className="flex w-full items-center justify-center gap-3 rounded-xl bg-linear-to-r from-purple-500 to-indigo-500 py-4 font-semibold transition hover:scale-105 disabled:opacity-60"
           >
-            <FaPaperPlane />
-            Send Message
+            {loading ? "Sending..." : (
+              <>
+                <FaPaperPlane />
+                Send Message
+              </>
+            )}
           </button>
 
         </form>
