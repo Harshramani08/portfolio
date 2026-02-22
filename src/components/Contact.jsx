@@ -1,18 +1,21 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { FaUser, FaEnvelope, FaPaperPlane, FaPhoneAlt } from "react-icons/fa";
 import emailjs from "@emailjs/browser";
-
 
 const initialState = {
   name: "",
   email: "",
   phone: "",
-  message: ""
+  message: "",
 };
 
 const Contact = () => {
   const [form, setForm] = useState(initialState);
+
+  useEffect(() => {
+    emailjs.init("ByKrV7PsZWVg5lCOO");
+  }, []);
 
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -23,13 +26,15 @@ const Contact = () => {
     const phoneRegex = /^[+]?[\d\s\-()]{10,20}$/;
 
     if (!form.name.trim()) return "Name is required";
-    if (!nameRegex.test(form.name)) return "Name must contain only letters";
+    if (!nameRegex.test(form.name))
+      return "Name must contain only letters";
 
     if (!form.email.trim()) return "Email is required";
-    if (!emailRegex.test(form.email)) return "Enter a valid email address";
+    if (!emailRegex.test(form.email))
+      return "Enter valid email";
 
-    if (!form.phone.trim()) return "Phone Number is required";
-    if (form.phone && !phoneRegex.test(form.phone))
+    if (!form.phone.trim()) return "Phone is required";
+    if (!phoneRegex.test(form.phone))
       return "Enter valid phone number";
 
     if (!form.message.trim()) return "Message is required";
@@ -38,7 +43,8 @@ const Contact = () => {
 
     return null;
   };
-  const handleSubmit = (e) => {
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const error = validateForm();
@@ -47,48 +53,36 @@ const Contact = () => {
       return;
     }
 
-    emailjs.send(
-      "service_abcd123",
-      "template_dkk9dtn",
-      form,
-      "Ajx95gMmH1isMtgp4"
-    )
-      .then(() => {
-        emailjs.send(
-          "service_abcd123",
-          "template_fazirnl",
-          form,
-          "Ajx95gMmH1isMtgp4"
-        );
+    try {
+      await emailjs.send(
+        "service_abcd123",
+        "template_dkk9dtn",
+        form
+      );
 
-        toast.success("Message sent successfully 🚀");
+      toast.success("Message sent successfully 🚀");
+      setForm(initialState);
 
-        setForm(initialState);
-      })
-      .catch(() => {
-        toast.error("Failed to send message!");
-      });
+    } catch (error) {
+      console.log("EMAIL ERROR:", error);
+      toast.error("Failed to send message!");
+    }
   };
 
   const inputClass =
     "w-full rounded-xl border border-white/10 bg-transparent py-3 pl-12 pr-4 outline-none focus:border-primary";
 
   return (
-    <section id="contact" className="px-6 py-20 md:py-24">
+    <section id="contact" className="px-6 py-20">
       <div className="mx-auto max-w-3xl text-center">
 
-        <h2 className="mb-6 text-4xl font-bold md:text-5xl">
+        <h2 className="mb-6 text-4xl font-bold">
           Contact With Me
         </h2>
 
-        <p className="mb-16 text-muted">
-          I'm currently open to opportunities and collaborations.
-          Feel free to send me a message anytime.
-        </p>
-
         <form
           onSubmit={handleSubmit}
-          className="space-y-6 rounded-3xl border border-white/10 bg-lightDark/60 p-6 md:p-10 backdrop-blur-md"
+          className="space-y-6 rounded-3xl border border-white/10 p-6 backdrop-blur-md"
         >
 
           <div className="relative">
@@ -138,7 +132,7 @@ const Contact = () => {
 
           <button
             type="submit"
-            className="flex w-full items-center justify-center gap-3 rounded-xl bg-linear-to-r from-primary to-secondary py-4 font-semibold transition hover:scale-105"
+            className="flex w-full items-center justify-center gap-3 rounded-xl bg-linear-to-r from-purple-500 to-indigo-500 py-4 font-semibold transition hover:scale-105"
           >
             <FaPaperPlane />
             Send Message
