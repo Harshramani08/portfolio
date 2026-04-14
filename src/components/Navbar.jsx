@@ -8,7 +8,7 @@ const navLinks = [
   { name: "Services", link: "#services" },
   { name: "Skills", link: "#skills" },
   { name: "Projects", link: "#projects" },
-  { name: "Contact", link: "#contact" }
+  { name: "Contact", link: "#contact" },
 ];
 
 const Navbar = () => {
@@ -16,10 +16,8 @@ const Navbar = () => {
 
   return (
     <div className="fixed left-1/2 top-6 z-50 w-[92%] sm:w-[95%] -translate-x-1/2 md:w-auto">
-
       <nav className="rounded-full border border-white/10 bg-white/5 px-6 py-3 shadow-lg backdrop-blur-lg md:px-8">
         <div className="flex items-center justify-between gap-6 md:justify-center">
-
           <div className="hidden items-center gap-8 md:flex">
             {navLinks.map(({ name, link }) => (
               <a
@@ -32,13 +30,12 @@ const Navbar = () => {
                 {name}
               </a>
             ))}
-
             <a
-              href="/resume.pdf"
+              href="/Harsh_Ramani.pdf"
               target="_blank"
-              download='resume.pdf'
+              download="resume.pdf"
               rel="noopener noreferrer"
-              className="ml-2 px-5 py-2 rounded-full bg-primary text-white text-sm font-semibold flex items-center gap-2 hover:scale-105 hover:shadow-lg hover:shadow-primary/30 transition duration-300"
+              className="ml-2 px-5 py-2 rounded-full bg-primary text-white text-sm font-semibold flex items-center gap-2"
             >
               Resume
               <LiaDownloadSolid className="text-lg" />
@@ -69,8 +66,8 @@ const Navbar = () => {
           ))}
 
           <a
-            href="/resume.pdf"
-            download="Harsh_Ramani_Resume.pdf"
+            href="/Harsh_Ramani.pdf"
+            download="resume.pdf"
             className="mt-4 inline-block rounded-full bg-primary px-6 py-2 text-white"
           >
             Resume
@@ -82,5 +79,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-
-
